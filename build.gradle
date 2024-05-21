@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "uniserv-sonarcloud-test_leon-java-test"
+        property "sonar.organization", "uniserv-sonarcloud-test"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.branch.name", "${pr_number == '' ? branch_name : ''}"
+        property "sonar.pullrequest.branch", "${pr_number != '' ? branch_name : ''}"
+        property "sonar.pullrequest.key", "${pr_number}"
+        property "sonar.pullrequest.provider", "GitHub"
+        property "sonar.pullrequest.github.repository", "uniserv-sonarcloud-test/leon-java-test"
+    }
+}
